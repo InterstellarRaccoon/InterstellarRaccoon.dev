@@ -1,0 +1,57 @@
+/* Imports */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Light theme by default */
+:root {
+    --color-primary: #3f7aea;
+    --color-primary-accent: #4042E6;
+    --color-primary-hover: #3364c0;
+
+    --color-secondary: #8519e7;
+    --color-secondary-accent: #4D30E1;
+    --color-secondary-hover: #7215c9;
+
+    --color-success: #3aa65a;
+    --color-success-hover: #2e8548;
+
+    --color-danger: #f37f4a;
+    --color-danger-hover: #d46430;
+
+    --color-info: #4cbad6;
+    --color-info-hover: #35a7c4;
+
+    --color-bg: #ffffff;
+    --color-bg-accent: #DADBDB;
+    --color-text: #212529;
+    --color-text-muted: #6c757d;
+
+    --font-primary: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Dark theme variables */
+:root[data-theme='dark'] {
+
+    --color-primary: #3f7aea;
+    --color-primary-accent: #4042E6;
+    --color-primary-hover: #3364c0;
+
+    --color-secondary: #8519e7;
+    --color-secondary-accent: #4D30E1;
+    --color-secondary-hover: #7215c9;
+
+    --color-success: #3aa65a;
+    --color-success-hover: #2e8548;
+
+    --color-danger: #f37f4a;
+    --color-danger-hover: #d46430;
+
+    --color-info: #4cbad6;
+    --color-info-hover: #35a7c4;
+
+    --color-bg: #131313;
+    --color-bg-accent: #333333;
+    --color-text: #dbdbdb;
+    --color-text-muted: #949494;
+
+    --font-primary: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
