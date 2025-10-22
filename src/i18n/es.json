@@ -1,0 +1,16 @@
+{
+    "hero": {
+        "title": "Hola! soy",
+        "name": "Abraham",
+        "subtitle": [
+            "Desarrollador Full-Stack.",
+            "Apasionado por la tecnología.",
+            "Amante de la programación."
+        ]
+    },
+    "navbar": {
+        "home": "Inicio",
+        "projects": "Proyectos",
+        "experience": "Experiencia"
+    }
+}

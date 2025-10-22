@@ -1,0 +1,16 @@
+{
+    "hero": {
+        "title": "Hello! I'm",
+        "name": "Abraham",
+        "subtitle": [
+            "Full-Stack developer.",
+            "Tech enthusiast.",
+            "Passionate about programming."
+        ]
+    },
+    "navbar": {
+        "home": "Home",
+        "projects": "Projects",
+        "experience": "Experience"
+    }
+}
