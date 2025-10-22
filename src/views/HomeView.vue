@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import Hero from '@/components/Hero/Hero.vue';
+import Hero from '@/components/Home/Hero/Hero.vue';
+import Projects from '@/components/Home/Projects/Projects.vue';
 import Navbar from '@/components/Navbar/Navbar.vue';
+import NavbarSpacer from '@/components/Navbar/NavbarSpacer.vue';
 
 </script>
 
@@ -8,6 +10,18 @@ import Navbar from '@/components/Navbar/Navbar.vue';
   <main>
     <Hero />
     <Navbar />
-
+    <NavbarSpacer />
+    <div class="container">
+      <Projects />
+      <hr>
+    </div>
   </main>
 </template>
+
+<style scoped>
+hr {
+  margin: 3rem 0;
+  border: none;
+  border-top: 1px solid var(--color-bg-accent);
+}
+</style>

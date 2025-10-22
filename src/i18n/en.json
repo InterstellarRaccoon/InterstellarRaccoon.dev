@@ -12,5 +12,31 @@
         "home": "Home",
         "projects": "Projects",
         "experience": "Experience"
+    },
+    "projects": {
+        "title": "Projects",
+        "subtitle": "Here you can see some of my projects.",
+        "projects": [
+            {
+                "name": "Portfolio",
+                "description": "My own portfolio, you're seeing it now!",
+                "linkDesc": "Repository",
+                "link": "https://github.com/InterstellarRaccoon/InterstellarRaccoon.dev"
+            },
+            {
+                "name": "ChatApp",
+                "description": "Chat application that implements a REST API for user management and WebSockets for message management.",
+                "linkDesc": "Repository",
+                "link": "https://github.com/interstellar-raccoon/portfolio",
+                "demoDesc": "Demo",
+                "demo": "https://github.com/interstellar-raccoon/portfolio"
+            },
+            {
+                "name": "Maze",
+                "description": "Small .NET console application to test maze generation and solving.",
+                "linkDesc": "Repository",
+                "link": "https://github.com/InterstellarRaccoon/Laberinto"
+            }
+        ]
     }
 }

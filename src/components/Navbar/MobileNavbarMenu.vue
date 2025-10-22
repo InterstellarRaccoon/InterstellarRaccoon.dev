@@ -9,7 +9,12 @@ const updateScroll = () => {
     window.scrollY > 0 ? document.getElementById('navbar-menu-container')!.classList.add('scrolling') : document.getElementById('navbar-menu-container')!.classList.remove('scrolling');
 }
 
+const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 onMounted(() => {
+    updateScroll();
     document.addEventListener('scroll', updateScroll)
 })
 
@@ -19,15 +24,15 @@ onUnmounted(() => {
 </script>
 <template>
     <div id="navbar-menu-container">
-        <RouterLink to="/">
+        <a @click="scrollToTop(); $emit('toggled')" href="#home">
             <div class="nav-btn">{{ t('navbar.home') }}</div>
-        </RouterLink>
-        <RouterLink to="/projects">
+        </a>
+        <a @click="$emit('toggled')" href="#projects">
             <div class="nav-btn">{{ t('navbar.projects') }}</div>
-        </RouterLink>
-        <RouterLink to="/experience">
+        </a>
+        <a @click="$emit('toggled')" href="#experience">
             <div class="nav-btn">{{ t('navbar.experience') }}</div>
-        </RouterLink>
+        </a>
     </div>
 </template>
 <style scoped>
@@ -40,7 +45,6 @@ onUnmounted(() => {
     background-color: var(--color-primary);
     display: flex;
     flex-direction: column;
-    transition: top 0.2s ease;
 }
 #navbar-menu-container.scrolling {
     top: 4.1rem;

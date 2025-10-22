@@ -5,6 +5,7 @@ html {
     overflow-x: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    scroll-behavior: smooth;
 }
 ::-webkit-scrollbar {
     width: 0;
@@ -21,6 +22,22 @@ body {
     scrollbar-color: var(--color-bg);
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
 a {
     text-decoration: none;
+}
+
+.container {
+    width: 1024px;
+    max-width: 90vw;
+}
+
+#projects {
+    scroll-margin-top: 60px;
 }

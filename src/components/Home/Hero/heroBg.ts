@@ -5,6 +5,8 @@ import * as ThreeInfiniteGrid from '@chronosai/three-infinite-grid';
 const rootElement = document.documentElement;
 let rootStyles = getComputedStyle(rootElement);
 
+const π = Math.PI;
+
 let primaryColor = rootStyles.getPropertyValue('--color-primary').trim();
 let primaryAccent = rootStyles.getPropertyValue('--color-primary-accent').trim();
 let secondaryColor = rootStyles.getPropertyValue('--color-secondary').trim();
@@ -95,18 +97,98 @@ function addParticle() {
 }
 const particles = Array(400).fill(0).map(addParticle);
 
-function addCenterpiece() {
-    const geometry = new THREE.IcosahedronGeometry(5, 0);
-    const material = new THREE.MeshStandardMaterial({
-        color: InterpolatedColor(0.5),
-    })
-    const particle = new THREE.Mesh(geometry, material);
-    particle.position.set(0, 20, 0);
-    scene.add(particle);
-    return particle;
+// START STELLATED ICOSAHEDRON
+// === PARAMETERS ===
+const radius = 4;
+const detail = 0;            // Level of subdivision for the base icosahedron
+const spikeLength = 3;     // How far spikes extend
+const keepCore = false;      // Keep original icosahedron faces
+
+// === CREATE BASE ICOSAHEDRON ===
+const baseGeom = new THREE.IcosahedronGeometry(radius, detail);
+
+// === SPIKE CREATION ===
+function spikeFromTriangle(a: THREE.Vector3, b: THREE.Vector3, c: THREE.Vector3, length: number): THREE.BufferGeometry {
+  const vA = a.clone();
+  const vB = b.clone();
+  const vC = c.clone();
+
+  // Compute face normal
+  const cb = new THREE.Vector3().subVectors(vC, vB);
+  const ab = new THREE.Vector3().subVectors(vA, vB);
+  const normal = cb.cross(ab).normalize();
+
+  // Compute centroid
+  const centroid = new THREE.Vector3().add(vA).add(vB).add(vC).divideScalar(3);
+
+  // Tip position
+  const tip = centroid.clone().addScaledVector(normal, length);
+
+  // Build geometry: 3 faces (triangles) forming a pyramid
+  const vertices = new Float32Array([
+    // face 1
+    tip.x, tip.y, tip.z, vA.x, vA.y, vA.z, vB.x, vB.y, vB.z,
+    // face 2
+    tip.x, tip.y, tip.z, vB.x, vB.y, vB.z, vC.x, vC.y, vC.z,
+    // face 3
+    tip.x, tip.y, tip.z, vC.x, vC.y, vC.z, vA.x, vA.y, vA.z,
+  ]);
+
+  const geom = new THREE.BufferGeometry();
+  geom.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+  geom.computeVertexNormals();
+  return geom;
 }
 
-const centerpiece = addCenterpiece();
+// === GENERATE STELLATED GEOMETRY ===
+const geometries: THREE.BufferGeometry[] = [];
+
+if (keepCore) {
+  geometries.push(baseGeom.clone());
+}
+
+const pos = baseGeom.getAttribute('position');
+const index = baseGeom.getIndex();
+
+if (index) {
+  const idx = index.array;
+  for (let i = 0; i < idx.length; i += 3) {
+    const ia = idx[i];
+    const ib = idx[i + 1];
+    const ic = idx[i + 2];
+    const a = new THREE.Vector3().fromBufferAttribute(pos, ia!);
+    const b = new THREE.Vector3().fromBufferAttribute(pos, ib!);
+    const c = new THREE.Vector3().fromBufferAttribute(pos, ic!);
+    geometries.push(spikeFromTriangle(a, b, c, spikeLength));
+  }
+} else {
+  for (let i = 0; i < pos.count; i += 3) {
+    const a = new THREE.Vector3().fromBufferAttribute(pos, i);
+    const b = new THREE.Vector3().fromBufferAttribute(pos, i + 1);
+    const c = new THREE.Vector3().fromBufferAttribute(pos, i + 2);
+    geometries.push(spikeFromTriangle(a, b, c, spikeLength));
+  }
+}
+
+// === ADD TO SCENE ===
+const group = new THREE.Group();
+const material = new THREE.MeshStandardMaterial({
+  color: InterpolatedColor(0.5),
+  metalness: 0.4,
+  roughness: 0.35,
+  flatShading: false,
+  side: THREE.DoubleSide,
+});
+// END STELLATED ICOSAHEDRON
+
+for (const g of geometries) {
+  const mesh = new THREE.Mesh(g, material);
+  group.add(mesh);
+}
+group.position.set(0, 20, 0);
+scene.add(group);
+
+const centerpiece = group;
 
 scene.background = new THREE.Color(backgroundColor);
 
@@ -128,19 +210,18 @@ window.addEventListener('resize', adjustRenderer)
 function orbitCamera(t: number, radius: number = 10, angle: number = 0, offset: number = 0): number[] {
     t = Math.max(0, Math.min(1, t));
 
-    const phi = angle * Math.sin(2 * Math.PI * t) * (Math.PI / 180) + offset;
-    const theta = t * 2 * Math.PI;
+    const φ = angle * Math.sin(2 * π * t) * (π / 180) + offset;
+    const θ = t * 2 * π;
 
-    const x = radius * Math.sin(theta) * Math.cos(phi);
-    const y = radius * Math.sin(phi);
-    const z = radius * Math.cos(theta) * Math.cos(phi);
+    const x = radius * Math.sin(θ) * Math.cos(φ);
+    const y = radius * Math.sin(φ);
+    const z = radius * Math.cos(θ) * Math.cos(φ);
 
     const position: [number, number, number] = [x, y, z];
 
     return position;
 }
 
-// const gridHelper = new THREE.GridHelper(2000, 100, secondaryColor, secondaryColor);
 const gridHelper = new ThreeInfiniteGrid.ThreeInfiniteGrid({
     chunks: new THREE.Vector2(100, 100),  //2000x2000 units size     
     plane: ThreeInfiniteGrid.PLANE.XZ,
@@ -183,11 +264,10 @@ function renderLoop() {
     }
 
     centerpiece.rotation.y += 0.001;
+    material.color = new THREE.Color(InterpolatedColor((Math.sin(delta * 2 * π) + 1) / 2, secondaryColor, primaryColor));
 
     delta += 0.0003;
-    if (delta > 1) {
-        delta = 0.0003;
-    }
+    if (delta > 1) delta = 0;
 
     renderer.render(scene, camera);
 }

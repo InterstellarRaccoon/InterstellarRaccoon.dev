@@ -31,16 +31,17 @@ function typeEffect() {
     const currentPhrase = phrases.value[phraseIndex] ?? phrases.value[0];
 
     if (!deleting) {
-        el.textContent = currentPhrase!.substring(0, charIndex + 1);
+        el.textContent = currentPhrase!.substring(0, charIndex + 1)+'_';
         charIndex++;
 
         if (charIndex === currentPhrase!.length) {
             deleting = true;
-            setTimeout(typeEffect, pauseTime); // pausa antes de borrar
+            el.textContent = currentPhrase!;
+            setTimeout(typeEffect, pauseTime);
             return;
         }
     } else {
-        el.textContent = currentPhrase!.substring(0, charIndex - 1);
+        el.textContent = currentPhrase!.substring(0, charIndex - 1)+'_';
         charIndex--;
 
         if (charIndex === 0) {
@@ -101,7 +102,7 @@ onUnmounted(() => {
 <style scoped>
 .hero {
     width: 100%;
-    height: calc(100vh - 4rem);
+    height: 100vh;
     background-color: var(--color-bg);
 }
 
@@ -115,6 +116,8 @@ onUnmounted(() => {
     align-items: center;
     width: 100%;
     height: 100%;
+    text-shadow: 4px 4px 5px var(--color-dark);
+    color: var(--color-text-light);
 }
 
 .hero-title {

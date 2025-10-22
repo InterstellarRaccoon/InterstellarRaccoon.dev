@@ -3,27 +3,75 @@ import DarkModeToggle from '@/components/DarkModeToggle.vue';
 import LanguageToggle from '@/components/LanguageToggle.vue';
 import { RouterLink } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { ref } from 'vue';
+import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import NavbarMenuToggle from './NavbarMenuToggle.vue';
 import MobileNavbarMenu from './MobileNavbarMenu.vue';
 const { t } = useI18n();
 
 const mobileNavbarShown = ref(false);
+const mobileHamburgerShown = ref(false);
+const scrolled = ref(false);
+
+const closeMobileMenus = () => {
+    mobileNavbarShown.value = false;
+    mobileHamburgerShown.value = false;
+};
+
+const updateMobileMenus = () => {
+    if (window.innerWidth > 768) {
+        closeMobileMenus();
+    } else {
+        mobileHamburgerShown.value = true;
+    }
+};
+
+const handleScroll = () => {
+    if (window.innerWidth > 768) {
+        scrolled.value = window.scrollY > window.innerHeight - 120;
+    } else {
+        scrolled.value = window.scrollY > window.innerHeight - 60;
+    }
+
+};
+
+const toggleMobileMenu = async () => {
+    closeMobileMenus();
+    await nextTick();
+    updateMobileMenus();
+
+};
+
+const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+onMounted(() => {
+    updateMobileMenus();
+    window.addEventListener('resize', updateMobileMenus);
+    window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', updateMobileMenus);
+    window.removeEventListener('scroll', handleScroll);
+});
+
+
 </script>
 <template>
-    <nav>
+    <nav :class="{ scrolled }">
         <div class="desktop">
             <div class="left">
                 <img class="logo" src="@/assets/logo.png" alt="Logo">
-                <RouterLink to="/">
+                <a @click="scrollToTop" href="#home">
                     <div class="nav-btn">{{ t('navbar.home') }}</div>
-                </RouterLink>
-                <RouterLink to="/projects">
+                </a>
+                <a href="#projects">
                     <div class="nav-btn">{{ t('navbar.projects') }}</div>
-                </RouterLink>
-                <RouterLink to="/experience">
+                </a>
+                <a href="#experience">
                     <div class="nav-btn">{{ t('navbar.experience') }}</div>
-                </RouterLink>
+                </a>
             </div>
             <div class="right">
                 <LanguageToggle />
@@ -33,27 +81,33 @@ const mobileNavbarShown = ref(false);
         <div class="mobile">
             <div class="left">
                 <img class="logo" src="@/assets/logo.png" alt="Logo">
-                <NavbarMenuToggle @toggle="mobileNavbarShown = !mobileNavbarShown" />
+                <NavbarMenuToggle v-if="mobileHamburgerShown" @toggle="mobileNavbarShown = !mobileNavbarShown" />
             </div>
             <div class="right">
                 <LanguageToggle />
                 <DarkModeToggle />
             </div>
         </div>
-        <MobileNavbarMenu v-if="mobileNavbarShown" />
+        <MobileNavbarMenu @toggled="toggleMobileMenu()" v-if="mobileNavbarShown" />
     </nav>
 </template>
 <style scoped>
 nav {
-    background: linear-gradient(5deg, var(--color-primary), var(--color-secondary));
-    position: sticky;
-    top: 0;
+    background: linear-gradient(10deg, var(--color-primary), var(--color-secondary));
+    position: absolute;
     z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
     box-shadow: 0px 0px 5px 5px var(--color-secondary-accent);
+    border-radius: 9999px;
+    transform: translateY(calc(100vh - 150%));
+}
+
+nav.scrolled {
+    position: fixed;
+    transform: translateY(50%);
 }
 
 .desktop {
@@ -78,6 +132,18 @@ nav {
     .mobile {
         display: flex;
     }
+
+    nav {
+        border-radius: 0;
+        width: 100vw;
+        align-self: stretch;
+        transform: translateY(calc(100vh - 100%));
+    }
+
+    nav.scrolled {
+        position: fixed;
+        transform: translateY(0);
+    }
 }
 
 .left {
@@ -92,7 +158,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: end;
-    margin-right: 1rem;
+    margin: 0 1rem;
     gap: 1rem;
 }
 
@@ -105,12 +171,13 @@ nav {
 .nav-btn {
     padding: 0.5rem;
     cursor: pointer;
-    color: var(--color-text);
+    color: var(--color-text-light);
     text-decoration: none;
 }
 
 .nav-btn:hover {
-    color: var(--color-text-muted);
+    color: var(--color-text-light-accent);
+    text-shadow: 4px 4px 5px var(--color-dark);
 }
 
 .nav-btn a {

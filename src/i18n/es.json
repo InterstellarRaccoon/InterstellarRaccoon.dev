@@ -12,5 +12,31 @@
         "home": "Inicio",
         "projects": "Proyectos",
         "experience": "Experiencia"
+    },
+    "projects": {
+        "title": "Proyectos",
+        "subtitle": "Aqui puedes ver algunos de mis proyectos.",
+        "projects": [
+            {
+                "name": "Porfolio",
+                "description": "Mi propio porfolio, lo estas viendo ahora mismo!",
+                "linkDesc": "Repositorio",
+                "link": "https://github.com/InterstellarRaccoon/InterstellarRaccoon.dev"
+            },
+            {
+                "name": "ChatApp",
+                "description": "Aplicacion de chat con API REST para la gestion de usuariuos y WebSocket para el envio de mensajes.",
+                "linkDesc": "Repositorio",
+                "link": "https://github.com/interstellar-raccoon/portfolio",
+                "demoDesc": "Demo",
+                "demo": "https://github.com/interstellar-raccoon/portfolio"
+            },
+            {
+                "name": "Laberinto",
+                "description": "Pequeño proyecto de consola para testear generacion y resolucion de laberintos en la consola de .NET.",
+                "linkDesc": "Repositorio",
+                "link": "https://github.com/InterstellarRaccoon/Laberinto"
+            }
+        ]
     }
 }
