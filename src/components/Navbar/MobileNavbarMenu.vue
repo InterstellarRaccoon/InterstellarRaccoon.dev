@@ -33,6 +33,9 @@ onUnmounted(() => {
         <a @click="$emit('toggled')" href="#experience">
             <div class="nav-btn">{{ t('navbar.experience') }}</div>
         </a>
+        <a @click="$emit('toggled')" href="#about-me">
+            <div class="nav-btn">{{ t('navbar.about') }}</div>
+        </a>
     </div>
 </template>
 <style scoped>
@@ -46,9 +49,11 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
 }
+
 #navbar-menu-container.scrolling {
     top: 4.1rem;
 }
+
 .nav-btn {
     padding: 1rem;
     padding-left: 2rem;

@@ -72,6 +72,9 @@ onUnmounted(() => {
                 <a href="#experience">
                     <div class="nav-btn">{{ t('navbar.experience') }}</div>
                 </a>
+                <a href="#about-me">
+                    <div class="nav-btn">{{ t('navbar.about') }}</div>
+                </a>
             </div>
             <div class="right">
                 <LanguageToggle />

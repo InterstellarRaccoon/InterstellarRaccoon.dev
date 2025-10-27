@@ -34,6 +34,7 @@ const projects = computed(() => tm('projects.projects') as IProject[]);
         grid-auto-rows: 1fr;
         align-items: stretch;
         gap: 1rem;
+        margin-top: 2rem;
     }
     @media screen and (max-width: 768px) {
         .grid {

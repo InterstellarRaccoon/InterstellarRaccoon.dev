@@ -59,8 +59,9 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const canvas = document.getElementById('hero-bg') as HTMLCanvasElement
 const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
-    canvas: canvas
-});
+    canvas: canvas,
+    antialias: true
+  });
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 rootElement.getAttribute('data-theme') === 'dark' && (ambientLight.intensity = 1);
@@ -70,14 +71,30 @@ scene.add(ambientLight);
 const directionalLight1 = new THREE.DirectionalLight(0xffffff, 10);
 directionalLight1.position.set(100, 100, 100);
 directionalLight1.lookAt(0, 20, 0);
+directionalLight1.castShadow = true;
+directionalLight1.shadow.camera.left = -50;
+directionalLight1.shadow.camera.right = 50;
+directionalLight1.shadow.camera.top = 50;
+directionalLight1.shadow.camera.bottom = -50;
+directionalLight1.shadow.mapSize.width = 4096;
+directionalLight1.shadow.mapSize.height = 4096;
 scene.add(directionalLight1);
 
 const directionalLight2 = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight2.position.set(-100, 100, -100);
 directionalLight2.lookAt(0, 20, 0);
+directionalLight2.castShadow = true;
+directionalLight2.shadow.camera.left = -50;
+directionalLight2.shadow.camera.right = 50;
+directionalLight2.shadow.camera.top = 50;
+directionalLight2.shadow.camera.bottom = -50;
+directionalLight2.shadow.mapSize.width = 4096;
+directionalLight2.shadow.mapSize.height = 4096;
 scene.add(directionalLight2);
 
 renderer.setPixelRatio(window.devicePixelRatio);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setSize(canvas.parentElement!.clientWidth, canvas.parentElement!.clientHeight);
 
 function addParticle() {
@@ -175,20 +192,23 @@ const group = new THREE.Group();
 const material = new THREE.MeshStandardMaterial({
   color: InterpolatedColor(0.5),
   metalness: 0.4,
-  roughness: 0.35,
+  roughness: 1,
   flatShading: false,
+  shadowSide: THREE.DoubleSide,
   side: THREE.DoubleSide,
 });
-// END STELLATED ICOSAHEDRON
 
 for (const g of geometries) {
   const mesh = new THREE.Mesh(g, material);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
   group.add(mesh);
 }
 group.position.set(0, 20, 0);
 scene.add(group);
 
 const centerpiece = group;
+// END STELLATED ICOSAHEDRON
 
 scene.background = new THREE.Color(backgroundColor);
 
