@@ -12,7 +12,7 @@
         "home": "Inicio",
         "projects": "Proyectos",
         "experience": "Experiencia",
-        "about": "Sobre mi"
+        "about": "Sobre mí"
     },
     "projects": {
         "title": "Proyectos",
@@ -22,19 +22,19 @@
                 "name": "Porfolio",
                 "description": "Mi propio porfolio, lo estas viendo ahora mismo!",
                 "linkDesc": "Repositorio",
-                "link": "https://github.com/InterstellarRaccoon/InterstellarRaccoon.dev"
+                "link": "https://forgejo.interstellarraccoon.dev/InterstellarRaccoon/InterstellarRaccoon.dev"
             },
             {
                 "name": "ChatApp",
                 "description": "Aplicacion de chat con API REST para la gestion de usuarios y WebSocket para el envio de mensajes.",
                 "linkDesc": "Repositorio",
-                "link": "https://github.com/InterstellarRaccoon/SafeMsg-front"
+                "link": "https://forgejo.interstellarraccoon.dev/InterstellarRaccoon/SafeMsg-front"
             },
             {
                 "name": "Laberinto",
                 "description": "Pequeño proyecto de consola para testear generacion y resolucion de laberintos en la consola de .NET.",
                 "linkDesc": "Repositorio",
-                "link": "https://github.com/InterstellarRaccoon/Laberinto"
+                "link": "https://forgejo.interstellarraccoon.dev/InterstellarRaccoon/Laberinto"
             }
         ]
     },

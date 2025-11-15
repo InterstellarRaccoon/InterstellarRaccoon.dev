@@ -22,19 +22,19 @@
                 "name": "Portfolio",
                 "description": "My own portfolio, you're seeing it now!",
                 "linkDesc": "Repository",
-                "link": "https://github.com/InterstellarRaccoon/InterstellarRaccoon.dev"
+                "link": "https://forgejo.interstellarraccoon.dev/InterstellarRaccoon/InterstellarRaccoon.dev"
             },
             {
                 "name": "ChatApp",
                 "description": "Chat application that implements a REST API for user management and WebSockets for message management.",
                 "linkDesc": "Repository",
-                "link": "https://github.com/InterstellarRaccoon/SafeMsg-front"
+                "link": "https://forgejo.interstellarraccoon.dev/InterstellarRaccoon/SafeMsg-front"
             },
             {
                 "name": "Maze",
                 "description": "Small .NET console application to test maze generation and solving.",
                 "linkDesc": "Repository",
-                "link": "https://github.com/InterstellarRaccoon/Laberinto"
+                "link": "https://forgejo.interstellarraccoon.dev/InterstellarRaccoon/Laberinto"
             }
         ]
     },
