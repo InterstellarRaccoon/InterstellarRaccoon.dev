@@ -35,5 +35,8 @@
     "vite": "^7.1.7",
     "vite-plugin-vue-devtools": "^8.0.2",
     "vue-tsc": "^3.1.0"
+  },
+  "allowScripts": {
+    "esbuild@0.25.11": true
   }
 }
